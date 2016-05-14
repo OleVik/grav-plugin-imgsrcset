@@ -10,7 +10,7 @@ To this:
 
 	<img title="Street view from the east" alt="Street view" src="street.jpg" srcset="street-320.jpg 320w, street-480.jpg 480w, street-640.jpg 640w, street-960.jpg 960w, street-1280.jpg 1280w, street-1600.jpg 1600w, street-1920.jpg 1920w, street-2240.jpg 2240w" sizes="100vw">
 
-This is only applied to image-elements generated from Markdown. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` `sizes`.
+This is only applied to image-elements generated from Markdown. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` and `sizes`.
 
 # Installation and Configuration
 
