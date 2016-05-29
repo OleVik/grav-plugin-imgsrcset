@@ -38,7 +38,7 @@ The `widths` setting is a YAML sequence wherein each integer represents the widt
 	 
 ## Sizes
 
-The `widths` setting is a YAML string defining the [sizes](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-sizes)-attribute, defaulting to:
+The `sizes` setting is a YAML string defining the [sizes](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-sizes)-attribute, defaulting to:
 
 	sizes: "100vw"
 
