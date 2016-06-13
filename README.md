@@ -23,6 +23,13 @@ You should now have all the plugin files under
 
 The plugin is enabled by default, and can be disabled by copying `user/plugins/imgcaptions/imgsrcset.yaml` into `user/config/plugins/imgsrcset.yaml` and setting `enabled: false`. For a simple Twig-integration see [this gist](https://gist.github.com/OleVik/a7604215f127763b71bd8b8788d45cfd), and for an example of generating responsive images with Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).
 
+**Note**: The plugin needs Twig to be processed first, so be sure to set `twig_first` to `true` in `system.yaml`, like this:
+
+```
+pages:
+  twig_first: true
+```
+
 ## Widths
 
 The `widths` setting is a YAML sequence wherein each integer represents the width of the image, defaulting to:
