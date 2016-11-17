@@ -21,7 +21,7 @@ You should now have all the plugin files under
 
     /your/site/grav/user/plugins/imgsrcset
 
-The plugin is enabled by default, and can be disabled by copying `user/plugins/imgsrcset/imgsrcset.yaml` into `user/config/plugins/imgsrcset.yaml` and setting `enabled: false`. For a simple Twig-integration see [this gist](https://gist.github.com/OleVik/a7604215f127763b71bd8b8788d45cfd), and for an example of generating responsive images with Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).
+The plugin is enabled by default, and can be disabled by copying `user/plugins/imgsrcset/imgsrcset.yaml` into `user/config/plugins/imgsrcset.yaml` and setting `enabled: false`. For a simple Twig-integration see [this gist](https://gist.github.com/OleVik/a7604215f127763b71bd8b8788d45cfd).
 
 **Note**: The plugin needs Twig to be processed first, so be sure to set `twig_first` to `true` in `system.yaml`, like this:
 
@@ -29,6 +29,11 @@ The plugin is enabled by default, and can be disabled by copying `user/plugins/i
 pages:
   twig_first: true
 ```
+
+## Generating images
+This plugin does **not** leverage Grav's media caching mechanisms, it simply circumvenes the need for caching by assuming that images are generated outside of Grav. This is necessary because Grav currently uses the Gregwar library, which relies on PHP's GD-module for image manipulation, and it handles large or many images poorly - indeed it tends to crash both caching and Grav itself. Thus by creating the images outside of this system the same quality and automation can be achieved.
+
+**For an example of generating responsive images with NodeJS and Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).**
 
 ## Widths
 
