@@ -21,7 +21,7 @@ class ImgSrcsetPlugin extends Plugin
         $page = $event['page'];
         $pluginsobject = (array) $this->config->get('plugins');
         $pageobject = $this->grav['page'];
-		if (isset($pluginsobject['imgsrcset'])) {
+		if (isset($pluginsobject['imgsrcset']) && !$this->isAdmin()) {
             if ($pluginsobject['imgsrcset']['enabled']) {
 				$dom = new Dom;
 				$dom->load($page->content());

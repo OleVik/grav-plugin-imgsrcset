@@ -35,6 +35,13 @@ This plugin does **not** leverage Grav's media caching mechanisms, it simply cir
 
 **For an example of generating responsive images with NodeJS and Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).**
 
+**Note**: Some users have experienced problems when Markdown processes special characters before Twig is processed, and the plugin needs Twig to be processed first. If the plugin throws errors, be sure to set `twig_first` to `true` in `system.yaml`, like this:
+
+```
+pages:
+  twig_first: true
+```
+
 ## Widths
 
 The `widths` setting is a YAML sequence wherein each integer represents the width of the image, defaulting to:

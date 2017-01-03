@@ -1,5 +1,5 @@
 name: Image Srcset
-version: 1.0.0
+version: 1.0.1
 description: "Adds a srcset-attribute to img-elements to allow for responsive images in Markdown."
 icon: asterisk
 author:
