@@ -31,16 +31,9 @@ pages:
 ```
 
 ## Generating images
-This plugin does **not** leverage Grav's media caching mechanisms, it simply circumvenes the need for caching by assuming that images are generated outside of Grav. This is necessary because Grav currently uses the Gregwar library, which relies on PHP's GD-module for image manipulation, and it handles large or many images poorly - indeed it tends to crash both caching and Grav itself. Thus by creating the images outside of this system the same quality and automation can be achieved.
+This plugin does **not** leverage Grav's media caching mechanisms, it simply circumvenes the need for caching by assuming that images are generated outside of Grav. This is necessary because Grav currently uses the Gregwar library, which relies on PHP's GD-module for image manipulation, and it handles large or many images poorly - indeed it tends to crash both caching and Grav itself. Thus by creating the images outside of this system the same quality and automation is achieved.
 
 **For an example of generating responsive images with NodeJS and Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).**
-
-**Note**: Some users have experienced problems when Markdown processes special characters before Twig is processed, and the plugin needs Twig to be processed first. If the plugin throws errors, be sure to set `twig_first` to `true` in `system.yaml`, like this:
-
-```
-pages:
-  twig_first: true
-```
 
 ## Widths
 
@@ -75,4 +68,4 @@ The plugin expects the images to be in the same folder as the source image. So, 
 	street-1920.jpg
 	street-2240.jpg
 
-MIT License 2016 by [Ole Vik](http://github.com/olevik).
+MIT License 2017 by [Ole Vik](http://github.com/olevik).

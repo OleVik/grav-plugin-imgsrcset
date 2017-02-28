@@ -1,7 +1,7 @@
 name: Image Srcset
-version: 1.0.2
+version: 1.0.3
 description: "Adds a srcset-attribute to img-elements to allow for responsive images in Markdown."
-icon: asterisk
+icon: picture-o
 author:
   name: Ole Vik
   email: git@olevik.me
@@ -25,13 +25,12 @@ form:
       validate:
         type: bool
     widths:
-      type: text
-      size: x-large
+      type: selectize
       label: Widths
-      help: Determines the available image sizes, by widths.
+      description: Determines the available image sizes. Comma-separated list of widths.
+      classes: fancy
       validate:
-        type: text
-        min: 1
+        type: commalist
     sizes:
       type: text
       size: x-small
