@@ -4,11 +4,30 @@ Adds a `srcset`-attribute to `img`-elements to allow for responsive images in Ma
 
 Thus, on a small mobile screen this would load a much smaller image than on a large desktop. From this:
 
-  <img title="Street view from the east" alt="Street view" src="street.jpg">
+```html
+<img title="Street view from the east" alt="Street view" src="street.jpg" />
+```
 
 To this:
 
-  <img title="Street view from the east" alt="Street view" src="street.jpg" srcset="street-320.jpg 320w, street-480.jpg 480w, street-640.jpg 640w, street-960.jpg 960w, street-1280.jpg 1280w, street-1600.jpg 1600w, street-1920.jpg 1920w, street-2240.jpg 2240w" sizes="100vw">
+```html
+<img
+  title="Street view from the east"
+  alt="Street view"
+  src="street.jpg"
+  srcset="
+    street-320.jpg   320w,
+    street-480.jpg   480w,
+    street-640.jpg   640w,
+    street-960.jpg   960w,
+    street-1280.jpg 1280w,
+    street-1600.jpg 1600w,
+    street-1920.jpg 1920w,
+    street-2240.jpg 2240w
+  "
+  sizes="100vw"
+/>
+```
 
 This is only applied to image-elements generated from Markdown. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` and `sizes`.
 
@@ -63,7 +82,7 @@ sizes: "100vw"
 
 The plugin expects the images to be in the same folder as the source image. So, for the case of `street.jpg`, the page folder should contain:
 
-```yaml
+```bash
 street.jpg
 street-320.jpg
 street-480.jpg
