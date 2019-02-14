@@ -14,32 +14,38 @@ class MockNode extends InnerNode
     /**
      * Mock of innner html.
      */
-    public function innerHtml()
+    public function innerHtml(): string
     {
+        return '';
     }
 
     /**
      * Mock of outer html.
      */
-    public function outerHtml()
+    public function outerHtml(): string
     {
+        return '';
     }
 
     /**
      * Mock of text.
      */
-    public function text()
+    public function text(): string
     {
+        return '';
     }
 
     /**
      * Clear content of this node
      */
-    protected function clear()
+    protected function clear(): void
     {
         $this->innerHtml = null;
         $this->outerHtml = null;
         $this->text      = null;
+        if (is_null($this->parent) === false) {
+            $this->parent->clear();
+        }
     }
 
     /**
@@ -47,7 +53,7 @@ class MockNode extends InnerNode
      *
      * @return array
      */
-    protected function getIteratorArray()
+    protected function getIteratorArray(): array
     {
         return $this->getChildren();
     }

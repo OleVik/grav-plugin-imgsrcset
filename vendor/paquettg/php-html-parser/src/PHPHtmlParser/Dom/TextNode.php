@@ -34,11 +34,14 @@ class TextNode extends LeafNode
      * Sets the text for this node.
      *
      * @param string $text
+     * @param bool $removeDoubleSpace
      */
-    public function __construct($text)
+    public function __construct(string $text, $removeDoubleSpace = true)
     {
-        // remove double spaces
-        $text = mb_ereg_replace('\s+', ' ', $text);
+        if ($removeDoubleSpace) {
+            // remove double spaces
+            $text = mb_ereg_replace('\s+', ' ', $text);
+        }
 
         // restore line breaks
         $text = str_replace('&#10;', "\n", $text);
@@ -53,7 +56,7 @@ class TextNode extends LeafNode
      *
      * @return string
      */
-    public function text()
+    public function text(): string
     {
         // convert charset
         if ( ! is_null($this->encode)) {
@@ -73,12 +76,30 @@ class TextNode extends LeafNode
     }
 
     /**
+     * Sets the text for this node.
+     *
+     * @var string $text
+     * @return void
+     */
+    public function setText(string $text): void
+    {
+        $this->text = $text;
+
+        if ( ! is_null($this->encode)) {
+            $text = $this->encode->convert($text);
+
+            // remember the conversion
+            $this->convertedText = $text;
+        }
+    }
+
+    /**
      * This node has no html, just return the text.
      *
      * @return string
      * @uses $this->text()
      */
-    public function innerHtml()
+    public function innerHtml(): string
     {
         return $this->text();
     }
@@ -89,7 +110,7 @@ class TextNode extends LeafNode
      * @return string
      * @uses $this->text()
      */
-    public function outerHtml()
+    public function outerHtml(): string
     {
         return $this->text();
     }
@@ -98,8 +119,18 @@ class TextNode extends LeafNode
      * Call this when something in the node tree has changed. Like a child has been added
      * or a parent has been changed.
      */
-    protected function clear()
+    protected function clear(): void
     {
         $this->convertedText = null;
+    }
+
+    /**
+     * Checks if the current node is a text node.
+     *
+     * @return bool
+     */
+    public function isTextNode(): bool
+    {
+        return true;
     }
 }

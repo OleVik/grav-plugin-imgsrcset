@@ -4,11 +4,11 @@ Adds a `srcset`-attribute to `img`-elements to allow for responsive images in Ma
 
 Thus, on a small mobile screen this would load a much smaller image than on a large desktop. From this:
 
-	<img title="Street view from the east" alt="Street view" src="street.jpg">
-	
+    <img title="Street view from the east" alt="Street view" src="street.jpg">
+
 To this:
 
-	<img title="Street view from the east" alt="Street view" src="street.jpg" srcset="street-320.jpg 320w, street-480.jpg 480w, street-640.jpg 640w, street-960.jpg 960w, street-1280.jpg 1280w, street-1600.jpg 1600w, street-1920.jpg 1920w, street-2240.jpg 2240w" sizes="100vw">
+    <img title="Street view from the east" alt="Street view" src="street.jpg" srcset="street-320.jpg 320w, street-480.jpg 480w, street-640.jpg 640w, street-960.jpg 960w, street-1280.jpg 1280w, street-1600.jpg 1600w, street-1920.jpg 1920w, street-2240.jpg 2240w" sizes="100vw">
 
 This is only applied to image-elements generated from Markdown. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` and `sizes`.
 
@@ -31,6 +31,7 @@ pages:
 ```
 
 ## Generating images
+
 This plugin does **not** leverage Grav's media caching mechanisms, it simply circumvenes the need for caching by assuming that images are generated outside of Grav. This is necessary because Grav currently uses the Gregwar library, which relies on PHP's GD-module for image manipulation, and it handles large or many images poorly - indeed it tends to crash both caching and Grav itself. Thus by creating the images outside of this system the same quality and automation is achieved.
 
 **For an example of generating responsive images with NodeJS and Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).**
@@ -39,33 +40,48 @@ This plugin does **not** leverage Grav's media caching mechanisms, it simply cir
 
 The `widths` setting is a YAML sequence wherein each integer represents the width of the image, defaulting to:
 
-	 - 320
-	 - 480
-	 - 640
-	 - 960
-	 - 1280
-	 - 1600
-	 - 1920
-	 - 2240
-	 
+```yaml
+- 320
+- 480
+- 640
+- 960
+- 1280
+- 1600
+- 1920
+- 2240
+```
+
 ## Sizes
 
 The `sizes` setting is a YAML string defining the [sizes](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-sizes)-attribute, defaulting to:
 
-	sizes: "100vw"
+```yaml
+sizes: "100vw"
+```
 
 ## Images
 
 The plugin expects the images to be in the same folder as the source image. So, for the case of `street.jpg`, the page folder should contain:
 
-	street.jpg
-	street-320.jpg
-	street-480.jpg
-	street-640.jpg
-	street-960.jpg
-	street-1280.jpg
-	street-1600.jpg
-	street-1920.jpg
-	street-2240.jpg
+```yaml
+street.jpg
+street-320.jpg
+street-480.jpg
+street-640.jpg
+street-960.jpg
+street-1280.jpg
+street-1600.jpg
+street-1920.jpg
+street-2240.jpg
+```
 
-MIT License 2017 by [Ole Vik](http://github.com/olevik).
+Configuration-options may also be set on an individual Page, using the following FrontMatter:
+
+```yaml
+imgsrcset:
+	- enabled: true|false
+	- widths: ...
+	- sizes: ...
+```
+
+MIT License 2019 by [Ole Vik](http://github.com/olevik).

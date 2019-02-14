@@ -79,23 +79,38 @@ class Dom
      * @var array
      */
     protected $selfClosing = [
-        'img',
-        'br',
-        'input',
-        'meta',
-        'link',
-        'hr',
+        'area',
         'base',
+        'basefont',
+        'br',
+        'col',
         'embed',
+        'hr',
+        'img',
+        'input',
+        'keygen',
+        'link',
+        'meta',
+        'param',
+        'source',
         'spacer',
+        'track',
+        'wbr'
     ];
+
+    /**
+     * A list of tags where there should be no /> at the end (html5 style)
+     *
+     * @var array
+     */
+    protected $noSlash = [];
 
     /**
      * Returns the inner html of the root node.
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->root->innerHtml();
     }
@@ -116,10 +131,12 @@ class Dom
      *
      * @param string $str
      * @param array $options
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function load($str, $options = [])
+    public function load(string $str, array $options = []): Dom
     {
+        AbstractNode::resetCount();
         // check if it's a file
         if (strpos($str, "\n") === false && is_file($str)) {
             return $this->loadFromFile($str, $options);
@@ -137,9 +154,10 @@ class Dom
      *
      * @param string $file
      * @param array $options
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function loadFromFile($file, $options = [])
+    public function loadFromFile(string $file, array $options = []): Dom
     {
         return $this->loadStr(file_get_contents($file), $options);
     }
@@ -151,9 +169,10 @@ class Dom
      * @param string $url
      * @param array $options
      * @param CurlInterface $curl
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function loadFromUrl($url, $options = [], CurlInterface $curl = null)
+    public function loadFromUrl(string $url, array $options = [], CurlInterface $curl = null): Dom
     {
         if (is_null($curl)) {
             // use the default curl interface
@@ -170,9 +189,10 @@ class Dom
      *
      * @param string $str
      * @param array $option
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function loadStr($str, $option)
+    public function loadStr(string $str, array $option = []): Dom
     {
         $this->options = new Options;
         $this->options->setOptions($this->globalOptions)
@@ -196,9 +216,10 @@ class Dom
      * Sets a global options array to be used by all load calls.
      *
      * @param array $options
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): Dom
     {
         $this->globalOptions = $options;
 
@@ -210,9 +231,9 @@ class Dom
      *
      * @param string $selector
      * @param int $nth
-     * @return array
+     * @return mixed
      */
-    public function find($selector, $nth = null)
+    public function find(string $selector, int $nth = null)
     {
         $this->isLoaded();
 
@@ -220,13 +241,27 @@ class Dom
     }
 
     /**
+     * Find element by Id on the root node
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function findById(int $id)
+    {
+        $this->isLoaded();
+
+        return $this->root->findById($id);
+    }
+
+    /**
      * Adds the tag (or tags in an array) to the list of tags that will always
      * be self closing.
      *
      * @param string|array $tag
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function addSelfClosingTag($tag)
+    public function addSelfClosingTag($tag): Dom
     {
         if ( ! is_array($tag)) {
             $tag = [$tag];
@@ -243,9 +278,10 @@ class Dom
      * always be self closing.
      *
      * @param string|array $tag
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function removeSelfClosingTag($tag)
+    public function removeSelfClosingTag($tag): Dom
     {
         if ( ! is_array($tag)) {
             $tag = [$tag];
@@ -258,11 +294,62 @@ class Dom
     /**
      * Sets the list of self closing tags to empty.
      *
-     * @return $this
+     * @return Dom
+     * @chainable
      */
-    public function clearSelfClosingTags()
+    public function clearSelfClosingTags(): Dom
     {
         $this->selfClosing = [];
+
+        return $this;
+    }
+
+
+    /**
+     * Adds a tag to the list of self closing tags that should not have a trailing slash
+     *
+     * @param $tag
+     * @return Dom
+     * @chainable
+     */
+    public function addNoSlashTag($tag): Dom
+    {
+        if ( ! is_array($tag)) {
+            $tag = [$tag];
+        }
+        foreach ($tag as $value) {
+            $this->noSlash[] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Removes a tag from the list of no-slash tags.
+     *
+     * @param $tag
+     * @return Dom
+     * @chainable
+     */
+    public function removeNoSlashTag($tag): Dom
+    {
+        if ( ! is_array($tag)) {
+            $tag = [$tag];
+        }
+        $this->noSlash = array_diff($this->noSlash, $tag);
+
+        return $this;
+    }
+
+    /**
+     * Empties the list of no-slash tags.
+     *
+     * @return Dom
+     * @chainable
+     */
+    public function clearNoSlashTags(): Dom
+    {
+        $this->noSlash = [];
 
         return $this;
     }
@@ -272,7 +359,7 @@ class Dom
      *
      * @return \PHPHtmlParser\Dom\AbstractNode
      */
-    public function firstChild()
+    public function firstChild(): \PHPHtmlParser\Dom\AbstractNode
     {
         $this->isLoaded();
 
@@ -284,7 +371,7 @@ class Dom
      *
      * @return \PHPHtmlParser\Dom\AbstractNode
      */
-    public function lastChild()
+    public function lastChild(): \PHPHtmlParser\Dom\AbstractNode
     {
         $this->isLoaded();
 
@@ -292,11 +379,47 @@ class Dom
     }
 
     /**
+     * Simple wrapper function that returns count of child elements
+     *
+     * @return int
+     */
+    public function countChildren(): int
+    {
+        $this->isLoaded();
+
+        return $this->root->countChildren();
+    }
+
+    /**
+     * Get array of children
+     *
+     * @return array
+     */
+    public function getChildren(): array
+    {
+        $this->isLoaded();
+
+        return $this->root->getChildren();
+    }
+
+    /**
+     * Check if node have children nodes
+     *
+     * @return bool
+     */
+    public function hasChildren(): bool
+    {
+        $this->isLoaded();
+
+        return $this->root->hasChildren();
+    }
+
+    /**
      * Simple wrapper function that returns an element by the
      * id.
      *
      * @param string $id
-     * @return \PHPHtmlParser\Dom\AbstractNode
+     * @return \PHPHtmlParser\Dom\AbstractNode|null
      */
     public function getElementById($id)
     {
@@ -310,9 +433,9 @@ class Dom
      * tag name.
      *
      * @param string $name
-     * @return array
+     * @return mixed
      */
-    public function getElementsByTag($name)
+    public function getElementsByTag(string $name)
     {
         $this->isLoaded();
 
@@ -324,9 +447,9 @@ class Dom
      * class name.
      *
      * @param string $class
-     * @return array
+     * @return mixed
      */
-    public function getElementsByClass($class)
+    public function getElementsByClass(string $class)
     {
         $this->isLoaded();
 
@@ -338,7 +461,7 @@ class Dom
      *
      * @throws NotLoadedException
      */
-    protected function isLoaded()
+    protected function isLoaded(): void
     {
         if (is_null($this->content)) {
             throw new NotLoadedException('Content is not loaded!');
@@ -351,7 +474,7 @@ class Dom
      * @param string $str
      * @return string
      */
-    protected function clean($str)
+    protected function clean(string $str): string
     {
         if ($this->options->get('cleanupInput') != true) {
             // skip entire cleanup step
@@ -391,7 +514,9 @@ class Dom
         }
 
         // strip out server side scripts
-        $str = mb_eregi_replace("(<\?)(.*?)(\?>)", '', $str);
+        if ($this->options->get('serverSideScriptis') == true){
+            $str = mb_eregi_replace("(<\?)(.*?)(\?>)", '', $str);
+        }
 
         // strip smarty scripts
         $str = mb_eregi_replace("(\{\w)(.*?)(\})", '', $str);
@@ -402,7 +527,7 @@ class Dom
     /**
      * Attempts to parse the html in content.
      */
-    protected function parse()
+    protected function parse(): void
     {
         // add the root node
         $this->root = new HtmlNode('root');
@@ -419,16 +544,18 @@ class Dom
 
                 // check if it was a closing tag
                 if ($info['closing']) {
-                    $originalNode = $activeNode;
+                    $foundOpeningTag  = true;
+                    $originalNode     = $activeNode;
                     while ($activeNode->getTag()->name() != $info['tag']) {
                         $activeNode = $activeNode->getParent();
                         if (is_null($activeNode)) {
                             // we could not find opening tag
                             $activeNode = $originalNode;
+                            $foundOpeningTag = false;
                             break;
                         }
                     }
-                    if ( ! is_null($activeNode)) {
+                    if ($foundOpeningTag) {
                         $activeNode = $activeNode->getParent();
                     }
                     continue;
@@ -450,7 +577,7 @@ class Dom
                 trim($str) != ''
             ) {
                 // we found text we care about
-                $textNode = new TextNode($str);
+                $textNode = new TextNode($str, $this->options->removeDoubleSpace);
                 $activeNode->addChild($textNode);
             }
         }
@@ -462,7 +589,7 @@ class Dom
      * @return array
      * @throws StrictException
      */
-    protected function parseTag()
+    protected function parseTag(): array
     {
         $return = [
             'status'  => false,
@@ -516,8 +643,8 @@ class Dom
             }
 
             if (empty($name)) {
-                $this->content->fastForward(1);
-                continue;
+				$this->content->skipByToken('blank');
+				continue;
             }
 
             $this->content->skipByToken('blank');
@@ -588,6 +715,13 @@ class Dom
 
             // We force self closing on this tag.
             $node->getTag()->selfClosing();
+
+            // Should this tag use a trailing slash?
+            if(in_array($tag, $this->noSlash))
+            {
+                $node->getTag()->noTrailingSlash();
+            }
+
         }
 
         $this->content->fastForward(1);
@@ -603,7 +737,7 @@ class Dom
      *
      * @return bool
      */
-    protected function detectCharset()
+    protected function detectCharset(): bool
     {
         // set the default
         $encode = new Encode;

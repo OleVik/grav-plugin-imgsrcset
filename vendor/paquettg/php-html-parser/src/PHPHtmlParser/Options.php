@@ -7,7 +7,12 @@ namespace PHPHtmlParser;
  * @package PHPHtmlParser
  * @property bool whitespaceTextNode
  * @property bool strict
- * @property bool enforceEncoding
+ * @property string|null enforceEncoding
+ * @property bool cleanupInput
+ * @property bool removeScripts
+ * @property bool removeStyles
+ * @property bool preserveLineBreaks
+ * @property bool removeDoubleSpace
  */
 class Options
 {
@@ -25,6 +30,7 @@ class Options
         'removeScripts'      => true,
         'removeStyles'       => true,
         'preserveLineBreaks' => false,
+        'removeDoubleSpace'  => true,
     ];
 
     /**
@@ -58,9 +64,10 @@ class Options
      * Sets a new options param to override the current option array.
      *
      * @param array $options
-     * @return $this
+     * @return Options
+     * @chainable
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): Options
     {
         foreach ($options as $key => $option) {
             $this->options[$key] = $option;
@@ -76,7 +83,7 @@ class Options
      * @param string
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (isset($this->options[$key])) {
             return $this->options[$key];
