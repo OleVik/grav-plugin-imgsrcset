@@ -94,6 +94,8 @@ street-1920.jpg
 street-2240.jpg
 ```
 
+## Per Page Options
+
 Configuration-options may also be set on an individual Page, using the following FrontMatter:
 
 ```yaml
