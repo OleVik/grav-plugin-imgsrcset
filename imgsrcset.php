@@ -62,7 +62,7 @@ class ImgSrcsetPlugin extends Plugin
         if ($config['enabled']) {
             include __DIR__ . '/vendor/autoload.php';
             $dom = new Dom;
-            $dom->load($page->content());
+            $dom->load($page->getRawContent());
             $images = $dom->find('img');
             $widths = $config['widths'];
             foreach ($images as $image) {
@@ -78,7 +78,7 @@ class ImgSrcsetPlugin extends Plugin
                 $image->setAttribute('srcset', $srcsets);
                 $image->setAttribute('sizes', $config['sizes']);
             }
-            $page->setRawContent($dom);
+            $page->setRawContent($dom->outerHtml);
         }
     }
 }
