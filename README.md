@@ -31,6 +31,10 @@ To this:
 
 This is only applied to image-elements generated from Markdown. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` and `sizes`.
 
+# New in v2.0.0
+
+Following normal Semantic Versioning, v2 introduces breaking changes from v1. Rather than checking for whether the plugin is enabled, which is faulty, a `global`-setting has been added, and the per-page-processing setting renamed to `imgsrcset.process`. See details below.
+
 # Installation and Configuration
 
 1. Download the zip version of [this repository](https://github.com/OleVik/grav-plugin-imgsrcset) and unzip it under `/your/site/grav/user/plugins`.
@@ -55,9 +59,13 @@ This plugin does **not** leverage Grav's media caching mechanisms, it simply cir
 
 **For an example of generating responsive images with NodeJS and Gulp see [this gist](https://gist.github.com/OleVik/f2c8b51a7153743b13607072c27cf8d2).**
 
+## Global
+
+The `global`-setting is either `true` or `false` to enable or disable processing on all Pages. If set to `false`, only per-page processing has an effect.
+
 ## Widths
 
-The `widths` setting is a YAML sequence wherein each integer represents the width of the image, defaulting to:
+The `widths`-setting is a YAML sequence wherein each integer represents the width of the image, defaulting to:
 
 ```yaml
 - 320
@@ -72,7 +80,7 @@ The `widths` setting is a YAML sequence wherein each integer represents the widt
 
 ## Sizes
 
-The `sizes` setting is a YAML string defining the [sizes](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-sizes)-attribute, defaulting to:
+The `sizes`-setting is a YAML string defining the [sizes](https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-sizes)-attribute, defaulting to:
 
 ```yaml
 sizes: "100vw"
@@ -100,9 +108,9 @@ Configuration-options may also be set on an individual Page, using the following
 
 ```yaml
 imgsrcset:
-  enabled: true
+  process: true
   widths: widths
   sizes: sizes
 ```
 
-MIT License 2019 by [Ole Vik](http://github.com/olevik).
+MIT License 2019-2023 by [Ole Vik](http://github.com/olevik).
