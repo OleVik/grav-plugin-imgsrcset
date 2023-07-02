@@ -1,8 +1,7 @@
 <?php
+
 /**
  * ImgSrcset Plugin
- *
- * PHP version 7
  *
  * @category   Extensions
  * @package    Grav
@@ -11,13 +10,10 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @link       https://github.com/OleVik/grav-plugin-imgsrcset
  */
+
 namespace Grav\Plugin;
 
-use Grav\Common\Data;
 use Grav\Common\Plugin;
-use Grav\Common\Grav;
-use Grav\Common\Page\Page;
-use RocketTheme\Toolbox\Event\Event;
 use PHPHtmlParser\Dom;
 
 /**
@@ -47,6 +43,16 @@ class ImgSrcsetPlugin extends Plugin
     }
 
     /**
+     * Composer autoload.
+     *
+     * @return \Composer\Autoload\ClassLoader
+     */
+    public function autoload(): \Composer\Autoload\ClassLoader
+    {
+        return require __DIR__ . '/vendor/autoload.php';
+    }
+
+    /**
      * Iterates over images in page content and rewrites paths
      *
      * @return void
@@ -59,8 +65,7 @@ class ImgSrcsetPlugin extends Plugin
         $config = (array) $this->config->get('plugins.imgsrcset');
         $page = $this->grav['page'];
         $config = $this->mergeConfig($page);
-        if ($config['enabled']) {
-            include __DIR__ . '/vendor/autoload.php';
+        if ($config->get('global') || $config->get('process')) {
             $dom = new Dom;
             $dom->load($page->getRawContent());
             $images = $dom->find('img');
@@ -72,7 +77,7 @@ class ImgSrcsetPlugin extends Plugin
                 $extension = $file['extension'];
                 $srcsets = '';
                 foreach ($widths as $width) {
-                    $srcsets .= $dirname.'/'.$filename.'-'.$width.'.'.$extension.' '.$width.'w, ';
+                    $srcsets .= $dirname . '/' . $filename . '-' . $width . '.' . $extension . ' ' . $width . 'w, ';
                 }
                 $srcsets = rtrim($srcsets, ", ");
                 $image->setAttribute('srcset', $srcsets);

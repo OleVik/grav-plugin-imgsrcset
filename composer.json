@@ -1,4 +1,15 @@
 {
+  "name": "olevik/grav-plugin-imgsrcset",
+  "description": "Adds a srcset-attribute to img-elements to allow for responsive images in Markdown for Grav.",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ole Vik",
+      "email": "git@olevik.net"
+    }
+  ],
+  "minimum-stability": "stable",
   "require": {
     "paquettg/php-html-parser": "^2.0.2"
   }

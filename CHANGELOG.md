@@ -1,3 +1,15 @@
+# v2.0.0
+
+## 02-07-2023
+
+1. [](#new)
+   - `global`-parameter to enable/disable on all Pages
+   - `imgsrcset.process`-parameter to enable/disable on single Page
+2. [](#improved)
+   - Autoloading
+3. [](#tested)
+   - Grav v1.7.42
+
 # v1.1.1
 
 ## 29-04-2019
