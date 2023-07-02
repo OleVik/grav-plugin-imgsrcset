@@ -67,10 +67,13 @@ class ImgSrcsetPlugin extends Plugin
         $config = $this->mergeConfig($page);
         if ($config->get('global') || $config->get('process')) {
             $dom = new Dom;
-            $dom->load($page->getRawContent());
+            $dom->loadStr($page->getRawContent());
             $images = $dom->find('img');
             $widths = $config['widths'];
             foreach ($images as $image) {
+                if ($image->getAttribute('data-srcset')) {
+                    continue;
+                }
                 $file = pathinfo($image->getAttribute('src'));
                 $dirname = $file['dirname'];
                 $filename = $file['filename'];
@@ -83,7 +86,7 @@ class ImgSrcsetPlugin extends Plugin
                 $image->setAttribute('srcset', $srcsets);
                 $image->setAttribute('sizes', $config['sizes']);
             }
-            $page->setRawContent($dom->outerHtml);
+            $page->setRawContent($dom);
         }
     }
 }

@@ -113,4 +113,8 @@ imgsrcset:
   sizes: sizes
 ```
 
+## Ignoring specific images
+
+Any image with a `data-srcset`-attribute will be ignore when processing. In Markdown, use `?attribute=data-srcset,false`, for example: `![My Image](my-image.jpg?attribute=data-srcset,false)`.
+
 MIT License 2019-2023 by [Ole Vik](http://github.com/olevik).

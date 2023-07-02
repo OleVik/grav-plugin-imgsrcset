@@ -1,3 +1,12 @@
+# v2.1.0
+
+## 02-07-2023
+
+1. [](#new)
+   - Ignore images with a `data-srcset`-attribute
+2. [](#improved)
+   - Bump dependency
+
 # v2.0.0
 
 ## 02-07-2023

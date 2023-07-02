@@ -11,6 +11,6 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "paquettg/php-html-parser": "^2.0.2"
+    "paquettg/php-html-parser": "^3.1"
   }
 }
