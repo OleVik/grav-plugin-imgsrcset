@@ -29,7 +29,7 @@ To this:
 />
 ```
 
-This is only applied to image-elements generated from Markdown. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` and `sizes`.
+This is only applied to image-elements generated in the Page's HTML-output, not the whole site. Depends on [PHP Html Parser v1.7.0](https://github.com/paquettg/php-html-parser/) for DOM parsing and manipulation of `srcset` and `sizes`.
 
 # New in v2.0.0
 
